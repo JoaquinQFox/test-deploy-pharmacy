@@ -1,3 +1,11 @@
 from django.db import models
 
-# Create your models here.
+class Producto (models.Model):
+    codigo = models.CharField(max_length = 50, null = False, unique = True)
+    nombre = models.CharField(max_length = 100, null = False)
+    descripcion = models.TextField(null = True)
+    precio = models.DecimalField(max_digits = 10, decimal_places = 2, null = False)
+    fecha_vencimiento = models.DateField(null = False)
+    cantidad = models.IntegerField(default = 0)
+    estado = models.BooleanField(default = True)
+    created_at = models.DateTimeField()
