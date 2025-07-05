@@ -7,8 +7,8 @@ import json
 
 @ensure_csrf_cookie
 def csrf_token(request):
-    get_token(request)
-    return JsonResponse({'detail': 'CSRF cookie set'})
+    token = get_token(request)
+    return JsonResponse({'csrfToken': token})
 
 @csrf_protect
 @require_POST
