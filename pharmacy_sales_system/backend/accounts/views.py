@@ -31,6 +31,9 @@ def registerView(request):
 
     if password != confirms or password == '':
         return JsonResponse({'detail': 'Contraseñas Inválidas'})
+    
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({'detail': 'Usuario Ocupado'})
 
 @csrf_protect
 @require_POST
