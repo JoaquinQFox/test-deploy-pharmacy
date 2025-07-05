@@ -9,3 +9,4 @@ class Producto (models.Model):
     cantidad = models.IntegerField(default = 0)
     estado = models.BooleanField(default = True)
     created_at = models.DateTimeField()
+    proveedor = models.CharField(max_length = 150, null = True)
