@@ -10,6 +10,16 @@ def csrf_token(request):
     get_token(request)
     return JsonResponse({'detail': 'CSRF cookie set'})
 
+@require_POST
+def registerView(request):
+    user = request.user
+
+    if user.rol != 'admin':
+        return JsonResponse({'detail': 'Permiso invalido'})
+
+    # obtener datos del JSON y verificar (guardar desp)
+
+
 @csrf_protect
 @require_POST
 # @csrf_exempt
