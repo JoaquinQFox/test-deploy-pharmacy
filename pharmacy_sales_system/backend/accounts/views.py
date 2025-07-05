@@ -1,3 +1,26 @@
-from django.shortcuts import render
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+from django.views.decorators.http import require_POST
+from django.contrib.auth import authenticate, login, logout
+import json
 
-# Create your views here.
+@ensure_csrf_cookie
+def csrf_token(request):
+    return JsonResponse({'detail': 'CSRF cookie set'})
+
+@require_POST
+@csrf_protect
+def loginView(request):
+    data = json.loads(request.body)
+    user = authenticate(username = data.get("username"), password = data.get("password"))
+    if user is not None:
+        login(request, user)
+        return JsonResponse({'detail': 'Login exitoso'})
+        
+    return JsonResponse({'detail': 'Credenciales invalidas'}, status=400)
+
+@require_POST
+def logoutView(request):
+    logout(request)
+    return JsonResponse({'detail': 'Logout exitoso'})
