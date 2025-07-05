@@ -16,9 +16,19 @@ def registerView(request):
 
     if user.rol != 'admin':
         return JsonResponse({'detail': 'Permiso invalido'})
+    
+    data = json.loads(request.body)
+    username   = data.get("username")
+    first_name = data.get("first_name")
+    last_name  = data.get("last_name")
+    password   = data.get("password")
+    confirms   = data.get("confirms")
+    rol        = data.get("rol")
 
-    # obtener datos del JSON y verificar (guardar desp)
-
+    if password == confirms:
+        # Logica
+    else:
+        return JsonResponse({'detail': 'Contraseñas Diferentes'})
 
 @csrf_protect
 @require_POST
