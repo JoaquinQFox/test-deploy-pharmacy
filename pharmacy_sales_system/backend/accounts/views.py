@@ -2,8 +2,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect, csrf_
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.http import require_POST
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout, get_user_model
 import json
 
 @ensure_csrf_cookie
@@ -11,11 +10,13 @@ def csrf_token(request):
     get_token(request)
     return JsonResponse({'detail': 'CSRF cookie set'})
 
+@csrf_protect
 @require_POST
 def registerView(request):
+    User = get_user_model()
     user = request.user
 
-    if user.rol != 'admin':
+    if not request.user.is_authenticated or user.rol != 'admin':
         return JsonResponse({'detail': 'Permiso invalido'})
     
     data = json.loads(request.body)
