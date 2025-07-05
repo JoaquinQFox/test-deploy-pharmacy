@@ -19,7 +19,7 @@ from django.urls import include, path
 from rest_framework import routers
 from productos import views
 
-router = routers.DefaultRouter
+router = routers.DefaultRouter()
 router.register(r'producto', views.ProductoViewSet)
 
 urlpatterns = [
