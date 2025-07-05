@@ -34,6 +34,21 @@ def registerView(request):
     
     if User.objects.filter(username=username).exists():
         return JsonResponse({'detail': 'Usuario Ocupado'})
+    
+    data_user = {
+        "username":username,
+        "password":password,
+        "first_name":first_name,
+        "last_name":last_name,
+        "rol": rol
+    }
+
+    if rol == 'admin':
+        User.objects.create_superuser(**data_user)
+    else:
+        User.objects.create_user(**data_user)
+    
+    return JsonResponse({'detail': 'Usuario Exitoso'})
 
 @csrf_protect
 @require_POST
