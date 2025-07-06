@@ -16,8 +16,11 @@ def registerView(request):
     User = get_user_model()
     user = request.user
 
-    if not request.user.is_authenticated or user.rol != 'admin':
-        return JsonResponse({'detail': 'Permiso invalido'})
+    if not request.user.is_authenticated:
+        return JsonResponse({'detail': 'Usuario No Autenticado'}, status = 401)
+    
+    if user.rol != 'admin':
+        return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
     
     data = json.loads(request.body)
     username   = data.get("username")
@@ -27,14 +30,14 @@ def registerView(request):
     confirms   = data.get("confirms")
     rol        = data.get("rol")
 
-    if username == '' or first_name == '' or last_name == '' or rol == '':
-        return JsonResponse({'detail': 'Verificar Campos Vacíos'})
+    if username == '' or first_name == '' or last_name == '' or rol == '' or password == '':
+        return JsonResponse({'detail': 'Campos Inválidos'}, status = 400)
 
-    if password != confirms or password == '':
-        return JsonResponse({'detail': 'Contraseñas Inválidas'})
+    if password != confirms:
+        return JsonResponse({'detail': 'Contraseñas No Coinciden'}, status = 400)
     
     if User.objects.filter(username=username).exists():
-        return JsonResponse({'detail': 'Usuario Ocupado'})
+        return JsonResponse({'detail': 'Usuario Existente'}, status = 400)
     
     data_user = {
         "username":username,
@@ -49,7 +52,7 @@ def registerView(request):
     else:
         User.objects.create_user(**data_user)
     
-    return JsonResponse({'detail': 'Usuario Exitoso'})
+    return JsonResponse({'detail': 'Usuario Creado Exitosamente'}, status = 201)
 
 @csrf_protect
 @require_POST
