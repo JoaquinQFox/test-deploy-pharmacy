@@ -63,6 +63,7 @@ def loginView(request):
         
     return JsonResponse({'detail': 'Credenciales invalidas'}, status=400)
 
+@csrf_protect
 @require_POST
 # @csrf_exempt
 def logoutView(request):
