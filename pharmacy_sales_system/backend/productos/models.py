@@ -8,5 +8,5 @@ class Producto (models.Model):
     fecha_vencimiento = models.DateField(null = False)
     cantidad = models.IntegerField(default = 0)
     estado = models.BooleanField(default = True)
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add = True)
     proveedor = models.CharField(max_length = 150, null = True)
