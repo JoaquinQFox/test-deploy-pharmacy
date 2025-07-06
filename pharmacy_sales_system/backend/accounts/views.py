@@ -60,11 +60,12 @@ def registerView(request):
 def loginView(request):
     data = json.loads(request.body)
     user = authenticate(username = data.get("username"), password = data.get("password"))
+    
     if user is not None:
         login(request, user)
-        return JsonResponse({'detail': 'Login exitoso'})
+        return JsonResponse({'detail': 'Inicio de Sesión Exitoso'}, status = 200)
         
-    return JsonResponse({'detail': 'Credenciales invalidas'}, status=400)
+    return JsonResponse({'detail': 'Credenciales Invalidas'}, status = 400)
 
 @csrf_protect
 @require_POST
