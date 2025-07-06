@@ -59,17 +59,29 @@ def registerView(request):
 # @csrf_exempt
 def loginView(request):
     data = json.loads(request.body)
-    user = authenticate(username = data.get("username"), password = data.get("password"))
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        return JsonResponse({'detail': 'Usuario y Contraseña Obligatorios'}, status = 400)
+
+    user = authenticate(username=username, password=password)
     
     if user is not None:
+        if not user.is_active:
+            return JsonResponse({'detail': 'Usuario Inactivo'}, status = 403)
+        
         login(request, user)
         return JsonResponse({'detail': 'Inicio de Sesión Exitoso'}, status = 200)
-        
+       
     return JsonResponse({'detail': 'Credenciales Invalidas'}, status = 400)
 
 @csrf_protect
 @require_POST
 # @csrf_exempt
 def logoutView(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'detail': 'No Hay Sesión Activa'}, status = 403)
+
     logout(request)
-    return JsonResponse({'detail': 'Logout exitoso'})
+    return JsonResponse({'detail': 'Sesión Cerrada Correctamente'}, status = 200)
