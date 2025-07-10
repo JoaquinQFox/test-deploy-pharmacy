@@ -4,6 +4,8 @@ from django.middleware.csrf import get_token
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializer import UserSerializer
 from .models import User
 import json
@@ -12,6 +14,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['get', 'put']
+
+class CurrentUserView(APIView):
+    def get(self, request):
+        usuario = request.user
+        serializer = UserSerializer(usuario)
+        return Response(serializer.data)
+    
 
 
 @ensure_csrf_cookie
