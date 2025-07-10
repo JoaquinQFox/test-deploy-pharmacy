@@ -3,7 +3,14 @@ from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from rest_framework import viewsets
+from .serializer import UserSerializer
+from .models import User
 import json
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 @ensure_csrf_cookie
 def csrf_token(request):
