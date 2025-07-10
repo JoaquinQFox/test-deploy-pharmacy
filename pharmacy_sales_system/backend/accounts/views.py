@@ -11,6 +11,8 @@ import json
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    http_method_names = ['get', 'put']
+
 
 @ensure_csrf_cookie
 def csrf_token(request):
