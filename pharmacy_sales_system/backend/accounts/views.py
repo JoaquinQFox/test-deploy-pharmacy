@@ -6,22 +6,25 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .serializer import UserSerializer
 from .models import User
+# from productos.permissions import IsAdminUser
 import json
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ['get', 'put']
+    permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'put', 'patch']
 
 class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         usuario = request.user
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
     
-
 
 @ensure_csrf_cookie
 def csrf_token(request):
