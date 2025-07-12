@@ -51,6 +51,9 @@ def registerView(request):
     confirms   = data.get("confirms")
     rol        = data.get("rol")
 
+    if user.rol == 'admin' and rol == 'propietario' or rol == 'admin':
+        return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
+
     if username == '' or first_name == '' or last_name == '' or rol == '' or password == '':
         return JsonResponse({'detail': 'Campos Inválidos'}, status = 400)
 
@@ -67,11 +70,7 @@ def registerView(request):
         "last_name":last_name,
         "rol": rol
     }
-
-    if rol == 'admin':
-        User.objects.create_superuser(**data_user)
-    else:
-        User.objects.create_user(**data_user)
+    User.objects.create_user(**data_user)
     
     return JsonResponse({'detail': 'Usuario Creado Exitosamente'}, status = 201)
 
