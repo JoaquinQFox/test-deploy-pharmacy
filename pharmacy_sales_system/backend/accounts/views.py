@@ -54,7 +54,7 @@ def registerView(request):
 
     if not user.is_superuser:
 
-        if user.rol == 'admin' and rol == 'propietario' or rol == 'admin':
+        if user.rol == 'admin' and rol != 'vendedor':
             return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
 
         if user.rol == 'propietario' and rol == 'propietario': # Editable según las preferencias
