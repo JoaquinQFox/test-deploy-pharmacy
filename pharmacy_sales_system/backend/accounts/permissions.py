@@ -17,11 +17,13 @@ class ListarEditarRestriccion (permissions.BasePermission):
         user = request.user
 
         if request.method in ['PUT', 'PATCH']:
+            rol = request.data.get('rol', obj.rol)
+
             if user.rol == 'admin' and obj.rol == 'vendedor':
-                return True
+                return rol == 'vendedor'
             
             if user.rol == 'propietario' and not obj.rol == 'propietario':
-                return True
+                return rol in ['admin', 'vendedor']
             
             return False
         
