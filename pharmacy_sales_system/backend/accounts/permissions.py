@@ -12,3 +12,20 @@ class ListarRestriccion (permissions.BasePermission):
            return user.rol in ['admin', 'propietario']
        
        return False
+    
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+
+        if request.method in ['PUT', 'PATCH']:
+            if user.rol == 'admin' and obj.rol == 'vendedor':
+                return True
+            
+            if user.rol == 'propietario' and not obj.rol == 'propietario':
+                return True
+            
+            return False
+        
+        if request.method == 'GET':
+            return user.rol in ['admin', 'propietario']
+        
+        return False
