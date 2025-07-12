@@ -54,6 +54,9 @@ def registerView(request):
     if user.rol == 'admin' and rol == 'propietario' or rol == 'admin':
         return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
 
+    if user.rol == 'propietario' and rol == 'propietario':
+        return JsonResponse({'detail': 'Solo Existe Un Propietario'}, status = 403)
+
     if username == '' or first_name == '' or last_name == '' or rol == '' or password == '':
         return JsonResponse({'detail': 'Campos Inválidos'}, status = 400)
 
