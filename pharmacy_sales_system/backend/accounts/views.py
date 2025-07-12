@@ -41,7 +41,7 @@ def registerView(request):
     if not request.user.is_authenticated:
         return JsonResponse({'detail': 'Usuario No Autenticado'}, status = 401)
     
-    if not user.is_superuser and user.rol != 'admin':
+    if not user.is_superuser and not user.rol in ['admin', 'propietario']:
         return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
     
     data = json.loads(request.body)
