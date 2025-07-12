@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     ROLES = [
+        ('propietario', 'Propietario'),
         ('admin', 'Administrador'),
         ('vendedor', 'Vendedor'),
     ]
