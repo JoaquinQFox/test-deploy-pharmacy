@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .serializer import UserSerializer
+from .permissions import ListarEditarRestriccion
 from .models import User
 # from productos.permissions import IsAdminUser
 import json
@@ -15,7 +16,7 @@ import json
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, ListarEditarRestriccion]
     http_method_names = ['get', 'put', 'patch']
 
 class CurrentUserView(APIView):
@@ -24,7 +25,7 @@ class CurrentUserView(APIView):
         usuario = request.user
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
-    
+
 
 @ensure_csrf_cookie
 def csrf_token(request):
