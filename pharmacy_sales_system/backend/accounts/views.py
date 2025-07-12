@@ -40,7 +40,7 @@ def registerView(request):
     if not request.user.is_authenticated:
         return JsonResponse({'detail': 'Usuario No Autenticado'}, status = 401)
     
-    if user.rol != 'admin':
+    if not user.is_superuser and user.rol != 'admin':
         return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
     
     data = json.loads(request.body)
@@ -51,18 +51,20 @@ def registerView(request):
     confirms   = data.get("confirms")
     rol        = data.get("rol")
 
-    if user.rol == 'admin' and rol == 'propietario' or rol == 'admin':
-        return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
+    if not user.is_superuser:
 
-    if user.rol == 'propietario' and rol == 'propietario':
-        return JsonResponse({'detail': 'Solo Existe Un Propietario'}, status = 403)
+        if user.rol == 'admin' and rol == 'propietario' or rol == 'admin':
+            return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
+
+        if user.rol == 'propietario' and rol == 'propietario': # Editable según las preferencias
+            return JsonResponse({'detail': 'Solo Existe Un Propietario'}, status = 403)
 
     if username == '' or first_name == '' or last_name == '' or rol == '' or password == '':
         return JsonResponse({'detail': 'Campos Inválidos'}, status = 400)
 
     if password != confirms:
         return JsonResponse({'detail': 'Contraseñas No Coinciden'}, status = 400)
-    
+        
     if User.objects.filter(username=username).exists():
         return JsonResponse({'detail': 'Usuario Existente'}, status = 400)
     
