@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class ListarRestriccion (permissions.BasePermission):
+class ListarEditarRestriccion (permissions.BasePermission):
     
     def has_permission(self, request, view):
        user = request.user
