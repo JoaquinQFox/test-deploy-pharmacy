@@ -1,0 +1,51 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-dark">📦 Listado de Productos</h2>
+    <a routerLink="/productos/nuevo" class="btn btn-success shadow">
+      <i class="bi bi-plus-circle me-1"></i> Crear Nuevo Producto
+    </a>
+  </div>
+   
+  <div class="table-responsive shadow rounded">
+    <table class="table table-bordered table-hover align-middle mb-0">
+       <thead class="table-dark text-white text-center">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr *ngFor="let producto of productos" class="text-center">
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.codigo }}</td>
+            <td class="text-start">{{ producto.nombre }}</td>
+            <td>{{ producto.precio | currency:'S/ ' }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>
+            <a [routerLink]="['/productos/editar', producto.id]" class="btn btn-sm btn-outline-primary me-2">
+                <i class="bi bi-pencil-square"></i>
+            </a>
+            <button (click)="confirmarEliminacion(producto)" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash"></i>
+            </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+   
+  <div *ngIf="!productos || productos.length === 0" class="alert alert-info mt-4 text-center shadow-sm">
+    No hay productos para mostrar.
+  </div>
+   
+  <div class="mt-4">
+    <a routerLink="/" class="btn btn-secondary">
+      <i class="bi bi-arrow-left-circle"></i> Volver
+    </a>
+  </div>
+</div>
+

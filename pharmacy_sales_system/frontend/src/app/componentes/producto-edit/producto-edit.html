@@ -1,0 +1,4 @@
+<div class="container mt-4">
+    <h2>Editar Producto</h2>
+    <app-producto-form *ngIf="producto" [producto]="producto" (guardar)="editarProducto($event)"></app-producto-form>
+</div>
