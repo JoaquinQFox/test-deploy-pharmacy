@@ -4,11 +4,8 @@ class ListarEditarRestriccion (permissions.BasePermission):
     
     def has_permission(self, request, view):
        user = request.user
-
-       if request.method == 'GET':
-           return user.rol in ['admin', 'propietario']
        
-       if request.method in ['PUT', 'PATCH']:
+       if request.method in ['GET', 'PUT', 'PATCH', 'DELETE']:
            return user.rol in ['admin', 'propietario']
        
        return False
@@ -16,7 +13,7 @@ class ListarEditarRestriccion (permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         user = request.user
 
-        if request.method in ['PUT', 'PATCH']:
+        if request.method in ['PUT', 'PATCH', 'DELETE']:
             rol = request.data.get('rol', obj.rol)
 
             if user.rol == 'admin' and obj.rol == 'vendedor':

@@ -7,17 +7,29 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from .serializer import UserSerializer
 from .permissions import ListarEditarRestriccion
 from .models import User
-# from productos.permissions import IsAdminUser
 import json
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, ListarEditarRestriccion]
-    http_method_names = ['get', 'put', 'patch']
+    http_method_names = ['get', 'put', 'patch', 'delete']
+
+    def get_queryset(self):
+        return User.objects.filter(is_active=True)
+
+    def destroy(self, request, *args, **kwargs):
+        usuario = self.get_object()
+
+        usuario.is_active = False
+        usuario.save()
+        return Response({"detail": "Producto Eliminado Exitosamente"}, status=status.HTTP_200_OK)
+
+
 
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -26,6 +38,11 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
 
+class CheckAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+    @ensure_csrf_cookie
+    def get(self, request):
+        return Response({'detail': 'Usuario autenticado'})
 
 @ensure_csrf_cookie
 def csrf_token(request):
@@ -57,7 +74,7 @@ def registerView(request):
         if user.rol == 'admin' and rol != 'vendedor':
             return JsonResponse({'detail': 'Usuario Sin Permisos'}, status = 403)
 
-        if user.rol == 'propietario' and rol == 'propietario': # Editable según las preferencias
+        if user.rol == 'propietario' and rol == 'propietario': 
             return JsonResponse({'detail': 'Solo Existe Un Propietario'}, status = 403)
 
     if username == '' or first_name == '' or last_name == '' or rol == '' or password == '':
