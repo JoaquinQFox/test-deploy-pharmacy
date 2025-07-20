@@ -29,4 +29,21 @@ export class Login {
       this.errorMessage = '';
     });
   }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
+
+    this.loading = true;
+    this.auth.login(this.form.value).subscribe({
+      next: () => {
+        this.loading = false;
+        this.form.reset();
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.errorMessage = 'Credenciales inválidas';
+        this.loading = false;
+      },
+    });
+  }
 }
