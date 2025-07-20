@@ -21,4 +21,13 @@ export class Auth {
       tap(() => this.isAuthenticated.set(false))
     );
   }
+
+  checkAuth() {
+    return this.api.get<any>('/check-auth/').pipe(
+      tap({
+        next: () => this.isAuthenticated.set(true),
+        error: () => this.isAuthenticated.set(false),
+      })
+    );
+  }
 }
