@@ -15,4 +15,10 @@ export class Auth {
       tap(() => this.isAuthenticated.set(true))
     );
   }
+
+  logout() {
+    return this.api.post<any>('/logout/', {}).pipe(
+      tap(() => this.isAuthenticated.set(false))
+    );
+  }
 }
