@@ -18,4 +18,15 @@ export class Login {
   form!: FormGroup;
   errorMessage = '';
   loading = false;
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      this.errorMessage = '';
+    });
+  }
 }
