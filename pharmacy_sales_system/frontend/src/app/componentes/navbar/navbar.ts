@@ -24,4 +24,19 @@ export class Navbar {
     console.log('Toggle del menú');
     this.showMenu.update(v => !v);
   }
+
+  logout() {
+    console.log('Se ejecutó logout()'); 
+    alert('Cerrando sesión...'); 
+
+    this.auth.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        console.error('Error al cerrar sesión:', err);
+        alert('No se pudo cerrar sesión');
+      }
+    });
+  }
 }
