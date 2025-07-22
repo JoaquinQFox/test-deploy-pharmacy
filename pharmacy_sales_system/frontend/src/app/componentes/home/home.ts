@@ -5,6 +5,9 @@ import { Producto } from '../../services/producto';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../services/auth';
 import { Navbar } from '../navbar/navbar';
+import { jsPDF } from 'jspdf';
+import { autoTable } from 'jspdf-autotable';
+import { Venta, VentaD, VentaCreada } from '../../services/venta';
 
 @Component({
   selector: 'app-home',
@@ -17,11 +20,21 @@ export class Home implements OnInit {
   carrito: any[] = [];
   total: number = 0;
   codigoInput: string = '';
+  descuento: number = 0;
+  totalNeto: number = 0;
+  totalBruto: number = 0;
+  ultimaVentaId: number | null = null;
+  carritoVendido: any[] = [];
+  ventaBruto: number = 0;
+  ventaDescuento: number = 0;
+  ventaNeto: number = 0;
 
   constructor(
     private productoService: Producto,
     private auth: Auth,
+    private ventaService: Venta
   ) {}
+    
   ngOnInit(): void {
     this.productoService.listarProductos().subscribe(data => {
       this.productos = data;
@@ -33,6 +46,14 @@ export class Home implements OnInit {
   }
 
   escanearProducto() {
+    if (this.ultimaVentaId !== null) {
+        this.ultimaVentaId = null;
+        this.carritoVendido = [];
+        this.ventaBruto = 0;
+        this.ventaDescuento = 0;
+        this.ventaNeto = 0;
+    }
+
     const codigo = this.codigoInput.trim();
     if (!codigo) return;
 
@@ -47,7 +68,6 @@ export class Home implements OnInit {
       return;
     }
 
-    // Verificar si ya está en el carrito
     const itemCarrito = this.carrito.find(p => p.id == producto.id);
     if (itemCarrito) {
       if (itemCarrito.cantidad < producto.cantidad) {
@@ -59,7 +79,7 @@ export class Home implements OnInit {
       this.carrito.push({
         id: producto.id,
         nombre: producto.nombre,
-        precio: producto.precio,
+        precio: Number(producto.precio),
         cantidad: 1
       });
     }
@@ -69,12 +89,15 @@ export class Home implements OnInit {
   }
 
   calcularTotal() {
-    this.total = this.carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    this.totalBruto = this.carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+    const montoDescuento = this.totalBruto * (this.descuento / 100);
+    this.totalNeto = this.totalBruto - montoDescuento;
   }
   
   resetearCarrito() {
     this.carrito = [];
-    this.total = 0;
+    this.descuento = 0;
+    this.calcularTotal();
   }
 
   eliminarItem(item: any) {
@@ -83,7 +106,19 @@ export class Home implements OnInit {
   }
 
   agregarDescuento() {
-    alert('Funcionalidad de descuento no implementada');
+    const inputDescuento = prompt('Ingrese el porcentaje de descuento (0-100):', this.descuento.toString());
+    
+    if (inputDescuento === null) return;
+
+    const nuevoDescuento = parseFloat(inputDescuento);
+
+    if (isNaN(nuevoDescuento) || nuevoDescuento < 0 || nuevoDescuento > 100) {
+      alert('Por favor, ingrese un número válido entre 0 y 100.');
+      return;
+    }
+
+    this.descuento = nuevoDescuento;
+    this.calcularTotal();
   }
 
   procederCompra() {

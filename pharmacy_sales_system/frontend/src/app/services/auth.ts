@@ -7,7 +7,8 @@ import { tap } from 'rxjs/operators';
 })
 export class Auth {
   readonly isAuthenticated = signal(false);
-
+  private loggedIn = false;
+  readonly user = signal<{ first_name: string; last_name: string; rol: string} | null>(null);
   constructor(private api: Api) {}
 
   login(credentials: { username: string; password: string }) {
