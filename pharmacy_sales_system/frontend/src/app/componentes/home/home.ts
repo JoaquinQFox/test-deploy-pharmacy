@@ -121,8 +121,37 @@ export class Home implements OnInit {
     this.calcularTotal();
   }
 
-  procederCompra() {
-    alert('Funcionalidad de compra no implementada');
+  procederCompra(): void {
+    if (this.carrito.length === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+
+    const ventaData: VentaD = {
+      descuento: this.descuento,
+      detalles: this.carrito.map(item => ({
+        producto: item.id,
+        cantidad: item.cantidad
+      }))
+    };
+
+    this.ventaService.crearVenta(ventaData).subscribe({
+      next: (ventaCreada: VentaCreada) => {
+        alert(`Venta #${ventaCreada.id} realizada con éxito!`);
+        this.ultimaVentaId = ventaCreada.id;
+        this.carritoVendido = [...this.carrito];
+        this.ventaBruto = this.totalBruto;
+        this.ventaDescuento = this.descuento;
+        this.ventaNeto = this.totalNeto;
+        this.resetearCarrito();
+        this.productoService.listarProductos().subscribe(data => this.productos = data);
+      },
+      error: (err) => {
+        console.error('Error al crear la venta:', err);
+        const errorMessage = err.error?.detail ?? 'No se pudo procesar la venta. Verifique el stock o inténtelo más tarde.';
+        alert(`Error: ${errorMessage}`);
+      }
+    });
   }
 
   generarComprobante() {
