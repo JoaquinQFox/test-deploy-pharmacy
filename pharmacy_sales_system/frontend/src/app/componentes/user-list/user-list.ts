@@ -23,4 +23,8 @@ export class UserList implements OnInit {
       error: err => this.error = err.error.detail || 'Error cargando usuarios'
     });
   }
+
+  editUser(userId: number) {
+    this.router.navigate(['/users/edit', userId]);
+  }
 }
