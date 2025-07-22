@@ -27,5 +27,16 @@ export interface VentaD {
   providedIn: 'root'
 })
 export class Venta {
-  
+  private http = inject(HttpClient);
+  private apiUrl = 'http://127.0.0.1:8000/api/ventas';
+
+  crearVenta(ventaData: VentaD): Observable<VentaCreada> {
+    return this.http.post<VentaCreada>(this.apiUrl + '/', ventaData);
+  }
+
+  getComprobantePdf(ventaId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${ventaId}/generar_comprobante_pdf/`, {
+      responseType: 'blob' 
+    });
+  }
 }
