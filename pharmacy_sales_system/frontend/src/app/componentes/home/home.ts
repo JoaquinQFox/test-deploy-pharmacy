@@ -154,7 +154,75 @@ export class Home implements OnInit {
     });
   }
 
-  generarComprobante() {
-    alert('Funcionalidad de comprobante no implementada');
+  generarComprobante(): void {
+    if (this.carritoVendido.length === 0) {
+      alert('Primero debe completar una compra para generar el comprobante.');
+      return;
+    }
+    
+    const currentUser = this.currentUser; 
+    if (!currentUser) {
+      alert('Sesión de vendedor no encontrada. No se puede generar el comprobante.');
+      return;
+    }
+
+    const nombreCliente = prompt("Ingrese el nombre del cliente:", "Cliente Varios");
+    if (nombreCliente === null) {
+      return;
+    }
+
+    const direccionCliente = prompt("Ingrese la dirección del cliente (opcional):");
+    const correoCliente = prompt("Ingrese el correo del cliente (opcional):");
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Mi botica S.A.C.', 20, 30);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Comprobante N° ${String(this.ultimaVentaId).padStart(5, '0')}`, pageWidth - 20, 30, { align: 'right' });
+    doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, pageWidth - 20, 37, { align: 'right' });
+    doc.setLineWidth(0.5);
+    doc.line(20, 45, pageWidth - 20, 45);
+    doc.setFontSize(11);
+    doc.text(`Cliente: ${nombreCliente || 'Cliente Varios'}`, 20, 55);
+    doc.text(`Dirección: ${direccionCliente || ''}`, 20, 62);
+    doc.text(`Vendedor: ${currentUser.first_name} ${currentUser.last_name}`, pageWidth / 2 + 10, 55);
+    doc.text(`Correo: ${correoCliente || ''}`, pageWidth / 2 + 10, 62);
+    doc.line(20, 70, pageWidth - 20, 70);
+    autoTable(doc, {
+      head: [['CANTIDAD', 'PRODUCTO', 'PRECIO', 'TOTAL']],
+      body: this.carritoVendido.map(item => [
+        item.cantidad,
+        item.nombre,
+        `S/ ${Number(item.precio).toFixed(2)}`,
+        `S/ ${(Number(item.precio) * item.cantidad).toFixed(2)}`
+      ]),
+      startY: 75,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [255, 255, 255], textColor: [0, 0, 0],
+        fontStyle: 'bold', lineColor: [0, 0, 0], lineWidth: 0.2
+      },
+      styles: { lineColor: [0, 0, 0], lineWidth: 0.2 },
+      columnStyles: {
+        0: { halign: 'center' },
+        2: { halign: 'right' },
+        3: { halign: 'right' }
+      }
+    });
+    const finalY = (doc as any).lastAutoTable.finalY;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Subtotal: S/ ${this.ventaBruto.toFixed(2)}`, pageWidth - 20, finalY + 15, { align: 'right' });
+    if (this.ventaDescuento > 0) {
+      const montoDescuento = this.ventaBruto * (this.ventaDescuento / 100);
+      doc.text(`Descuento (${this.ventaDescuento}%): - S/ ${montoDescuento.toFixed(2)}`, pageWidth - 20, finalY + 22, { align: 'right' });
+    }
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total: S/ ${this.ventaNeto.toFixed(2)}`, pageWidth - 20, finalY + 30, { align: 'right' });
+    doc.output('dataurlnewwindow');
   }
 }
