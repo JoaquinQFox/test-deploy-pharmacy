@@ -38,5 +38,17 @@ export class UserEdit implements OnInit {
       error: err => this.errorMessage = err.error.detail || 'Error al cargar usuario'
     });
   }
+  
+  onSubmit(): void {
+    if (this.userForm.invalid) return;
+
+    this.user.updateUser(this.userId, this.userForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Usuario actualizado correctamente.';
+        setTimeout(() => this.router.navigate(['/users']), 1500);
+      },
+      error: (err:any) => this.errorMessage = err.error.detail || 'Error al actualizar usuario'
+    });
+  }
 
 }
