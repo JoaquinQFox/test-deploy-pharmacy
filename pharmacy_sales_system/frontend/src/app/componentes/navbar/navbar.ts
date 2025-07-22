@@ -18,4 +18,10 @@ export class Navbar {
     private router: Router
   ) {}
 
-  
+  user = computed(() => this.auth.user());
+
+  toggleMenu() {
+    console.log('Toggle del menú');
+    this.showMenu.update(v => !v);
+  }
+}
