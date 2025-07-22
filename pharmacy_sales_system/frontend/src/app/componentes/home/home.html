@@ -61,19 +61,21 @@
         </div>
 
         <!-- Detalle carrito -->
-
         <div class="col-lg-7 d-flex flex-column">
             <div class="card shadow-sm flex-grow-1">
                 <div class="card-header fw-bold">Carrito de Ventas</div>
-                <div class="card-body p-0">
+                <div class="card-body p-0" style="min-height: 200px; overflow-y: auto;">
                     <ul class="list-group list-group-flush">
+                        <li *ngIf="carrito.length === 0" class="list-group-item text-center text-muted">
+                            El carrito está vacío
+                        </li>
                         <li *ngFor="let item of carrito"
                             class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 {{ item.nombre }} x {{ item.cantidad }}
                             </div>
                             <div class="d-flex align-items-center">
-                                <span class="badge bg-primary rounded-pill me-2">S/ {{ item.precio * item.cantidad }}</span>
+                                <span class="badge bg-primary rounded-pill me-2">S/ {{ (item.precio * item.cantidad).toFixed(2) }}</span>
                                 <button class="btn btn-sm btn-outline-danger" (click)="eliminarItem(item)">
                                     <i class="bi bi-trash"></i>
                                 </button>
@@ -81,27 +83,39 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
-                    <strong>Total:</strong>
-                    <span>S/ {{ total }}</span>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>Subtotal:</strong>
+                        <span>S/ {{ totalBruto.toFixed(2) }}</span>
+                    </div>
+                    
+                    <div *ngIf="descuento > 0" class="d-flex justify-content-between align-items-center text-danger">
+                        <strong>Descuento ({{ descuento }}%):</strong>
+                        <span>- S/ {{ (totalBruto - totalNeto).toFixed(2) }}</span>
+                    </div>
+
+                    <hr *ngIf="descuento > 0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="fs-5">Total a Pagar:</strong>
+                        <span class="fs-5 fw-bold">S/ {{ totalNeto.toFixed(2) }}</span>
+                    </div>
                 </div>
                 <div class="card-footer d-flex justify-content-around">
-                    <button class="btn btn-sm btn-danger" (click)="agregarDescuento()">
-                        <i class="bi bi-percent"></i>
+                    <button class="btn btn-warning" (click)="agregarDescuento()" title="Agregar Descuento">
+                        <i class="bi bi-percent"></i> Descuento
                     </button>
-                    <button class="btn btn-sm btn-success" (click)="procederCompra()">
-                        <i class="bi bi-check-circle"></i>
+                    <button class="btn btn-success" (click)="procederCompra()" title="Proceder a la Compra">
+                        <i class="bi bi-check-circle"></i> Comprar
                     </button>
-                    <button class="btn btn-sm btn-secondary" (click)="generarComprobante()">
-                        <i class="bi bi-receipt"></i>
+                    <button class="btn btn-secondary" (click)="generarComprobante()" title="Generar Comprobante">
+                        <i class="bi bi-receipt"></i> Comprobante
                     </button>
-                    <button class="btn btn-sm btn-dark" (click)="resetearCarrito()">
-                        <i class="bi bi-trash"></i>
+                    <button class="btn btn-danger" (click)="resetearCarrito()" title="Vaciar Carrito">
+                        <i class="bi bi-trash2-fill"></i> Vaciar
                     </button>
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
