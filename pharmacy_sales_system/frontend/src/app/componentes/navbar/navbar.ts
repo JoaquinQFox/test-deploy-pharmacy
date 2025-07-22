@@ -39,4 +39,10 @@ export class Navbar {
       }
     });
   }
+
+  getInitials(): string {
+    const u = this.user();
+    if (!u) return '';
+    return (u.first_name[0] + u.last_name[0]).toUpperCase();
+  }
 }
