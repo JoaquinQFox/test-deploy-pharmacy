@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Producto } from '../../services/producto';
 import { FormsModule } from '@angular/forms';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, Navbar],
   templateUrl: 'home.html',
   styleUrl: 'home.css'
 })
