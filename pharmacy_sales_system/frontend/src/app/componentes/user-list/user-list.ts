@@ -12,5 +12,15 @@ import { Navbar } from '../navbar/navbar';
   styleUrls: ['./user-list.css']
 })
 export class UserList implements OnInit {
-  
+  users: any[] = [];
+  error: string | null = null;
+
+  constructor(private user: User, private router: Router) {}
+
+  ngOnInit(): void {
+    this.user.getUsers().subscribe({
+      next: data => this.users = data,
+      error: err => this.error = err.error.detail || 'Error cargando usuarios'
+    });
+  }
 }
