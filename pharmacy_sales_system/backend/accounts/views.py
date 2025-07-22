@@ -27,9 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
         usuario.is_active = False
         usuario.save()
-        return Response({"detail": "Producto Eliminado Exitosamente"}, status=status.HTTP_200_OK)
-
-
+        return Response({"detail": "Usuario Eliminado Exitosamente"}, status=status.HTTP_200_OK)
 
 class CurrentUserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -37,12 +35,6 @@ class CurrentUserView(APIView):
         usuario = request.user
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
-
-class CheckAuthView(APIView):
-    permission_classes = [IsAuthenticated]
-    @ensure_csrf_cookie
-    def get(self, request):
-        return Response({'detail': 'Usuario autenticado'})
 
 @ensure_csrf_cookie
 def csrf_token(request):

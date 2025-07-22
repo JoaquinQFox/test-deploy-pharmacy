@@ -10,8 +10,12 @@ class ProductoSerializer (serializers.ModelSerializer):
         exclude = ['estado']
     
     def validate_codigo(self, value):
-        if Producto.objects.filter(codigo=value,estado=True).exists():
-            raise serializers.ValidationError("Producto Existente")
+        instance = getattr(self, 'instance', None)
+        query = Producto.objects.filter(codigo=value, estado = True)
+        if instance:
+            query = query.exclude(pk = instance.pk)
+        if query.exists():
+            raise serializers.ValidationError("Ya existe otro producto con este código.")
         return value
 
 
