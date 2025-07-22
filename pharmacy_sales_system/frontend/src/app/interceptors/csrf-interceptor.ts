@@ -8,16 +8,19 @@ export const CsrfInterceptor: HttpInterceptorFn = (
   const token = getCookie('csrftoken');
   const methodsToInclude = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
+  let modifiedReq = req.clone({
+    withCredentials: true  
+  });
+
   if (token && methodsToInclude.includes(req.method) && !req.headers.has('X-CSRFToken')) {
-    req = req.clone({
+    modifiedReq = modifiedReq.clone({
       setHeaders: {
         'X-CSRFToken': token
-      },
-      withCredentials: true
+      }
     });
   }
 
-  return next(req);
+  return next(modifiedReq);
 };
 
 function getCookie(name: string): string | null {
