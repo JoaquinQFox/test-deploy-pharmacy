@@ -27,4 +27,25 @@ export class UserList implements OnInit {
   editUser(userId: number) {
     this.router.navigate(['/users/edit', userId]);
   }
+
+  confirmDeleteUser(user: any): void {
+    const confirmacion = confirm(`¿Estás seguro de que quieres eliminar al usuario "${user.first_name} ${user.last_name}" (ID: ${user.id})?`);
+
+    if (confirmacion) {
+      this.deleteUser(user.id);
+    }
+  }
+
+  private deleteUser(userId: number): void {
+    this.user.deleteUser(userId).subscribe({
+      next: () => {
+        console.log(`Usuario con ID ${userId} eliminado con éxito.`);
+        this.users = this.users.filter(u => u.id !== userId);
+      },
+      error: err => {
+        console.error(`Error al eliminar usuario con ID ${userId}`, err);
+        alert(err.error.detail || 'Error al eliminar el usuario.');
+      }
+    });
+  }
 }
