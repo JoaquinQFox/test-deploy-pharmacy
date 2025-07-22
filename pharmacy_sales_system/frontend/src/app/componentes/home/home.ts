@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Producto } from '../../services/producto';
 import { FormsModule } from '@angular/forms';
+import { Auth } from '../../services/auth';
 import { Navbar } from '../navbar/navbar';
 
 @Component({
@@ -17,12 +18,18 @@ export class Home implements OnInit {
   total: number = 0;
   codigoInput: string = '';
 
-  constructor(private productoService: Producto) {}
-
+  constructor(
+    private productoService: Producto,
+    private auth: Auth,
+  ) {}
   ngOnInit(): void {
     this.productoService.listarProductos().subscribe(data => {
       this.productos = data;
     });
+  }
+
+  get currentUser() {
+    return this.auth.user();
   }
 
   escanearProducto() {
