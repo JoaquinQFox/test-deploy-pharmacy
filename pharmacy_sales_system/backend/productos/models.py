@@ -10,3 +10,7 @@ class Producto (models.Model):
     estado = models.BooleanField(default = True)
     created_at = models.DateTimeField(auto_now_add = True)
     proveedor = models.CharField(max_length = 150, null = True)
+    stock_minimo = models.PositiveIntegerField(default=10, help_text="Punto de reorden para el producto")
+
+    def __str__(self):
+        return self.nombre
