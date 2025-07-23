@@ -1,3 +1,5 @@
+// frontend/app/app.routes.ts
+
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard';
 import { ProductoCreate } from './componentes/producto-create/producto-create';
@@ -8,6 +10,7 @@ import { Login } from './componentes/login/login';
 import { Register } from './componentes/register/register';
 import { UserEdit } from './componentes/user-edit/user-edit';
 import { UserList } from './componentes/user-list/user-list';
+import { HistorialVentas } from './componentes/historial-ventas/historial-ventas'; // <--- IMPORTA EL COMPONENTE
 
 
 export const routes: Routes = [
@@ -15,6 +18,10 @@ export const routes: Routes = [
   { path: 'productos', component: ProductoList, canActivate: [AuthGuard] },
   { path: 'productos/nuevo', component: ProductoCreate, canActivate: [AuthGuard] },
   { path: 'productos/editar/:id', component: ProductoEdit, canActivate: [AuthGuard] },
+  
+  // AÑADE LA NUEVA RUTA AQUÍ
+  { path: 'historial-ventas', component: HistorialVentas, canActivate: [AuthGuard] },
+
   { path: 'users/register', component: Register, canActivate: [AuthGuard] },
   { path: 'users/edit/:id', component: UserEdit, canActivate: [AuthGuard] },
   { path: 'users', component: UserList, canActivate: [AuthGuard] }, 
