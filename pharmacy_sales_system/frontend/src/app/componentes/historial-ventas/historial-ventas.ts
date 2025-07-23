@@ -2,15 +2,17 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // <-- IMPORTANTE: Añadir FormsModule
+import { FormsModule } from '@angular/forms'; 
 import { Api } from '../../services/api';
 import { Venta } from '../../../models/venta.model';
+import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-historial-ventas',
   standalone: true,
   // Asegúrate de importar FormsModule para usar ngModel
-  imports: [CommonModule, DatePipe, CurrencyPipe, FormsModule], 
+  imports: [CommonModule, DatePipe, CurrencyPipe, FormsModule, RouterLink, RouterModule], 
   templateUrl: './historial-ventas.html',
   styleUrls: ['./historial-ventas.css']
 })
