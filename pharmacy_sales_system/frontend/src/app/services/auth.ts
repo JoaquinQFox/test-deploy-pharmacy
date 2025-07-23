@@ -6,29 +6,48 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class Auth {
-  readonly isAuthenticated = signal(false);
+  readonly authenticated = signal(false); 
   private loggedIn = false;
   readonly user = signal<{ first_name: string; last_name: string; rol: string} | null>(null);
+
   constructor(private api: Api) {}
 
   login(credentials: { username: string; password: string }) {
     return this.api.post<any>('/login/', credentials).pipe(
-      tap(() => this.isAuthenticated.set(true))
+      tap((user) => {
+        this.loggedIn = true;
+        this.authenticated.set(true);
+        this.user.set(user);
+      })
     );
   }
 
   logout() {
     return this.api.post<any>('/logout/', {}).pipe(
-      tap(() => this.isAuthenticated.set(false))
+      tap(() => {
+        this.loggedIn = false;
+        this.authenticated.set(false);
+      })
     );
   }
 
   checkAuth() {
-    return this.api.get<any>('/check-auth/').pipe(
+    return this.api.get<any>('/check-user/').pipe(
       tap({
-        next: () => this.isAuthenticated.set(true),
-        error: () => this.isAuthenticated.set(false),
+        next: (user) => {
+          this.loggedIn = true;
+          this.authenticated.set(true);
+          this.user.set(user);
+        },
+        error: () => {
+          this.loggedIn = false;
+          this.authenticated.set(false);
+        }
       })
     );
+  }
+
+  isLoggedIn(): boolean {
+    return this.loggedIn;
   }
 }

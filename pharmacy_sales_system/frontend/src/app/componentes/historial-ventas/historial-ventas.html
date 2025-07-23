@@ -1,0 +1,64 @@
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Historial de Ventas</h2>
+        </div>
+        <div class="card-body">
+            <div *ngIf="ventas.length === 0" class="alert alert-info" role="alert">
+                No hay ventas registradas hasta el momento.
+            </div>
+
+            <div class="accordion" id="accordionVentas" *ngIf="ventas.length > 0">
+                <div class="accordion-item" *ngFor="let venta of ventas; let i = index">
+                    <h2 class="accordion-header" [id]="'heading' + i">
+                        <button class="accordion-button collapsed" type="button" (click)="toggleDetalles(venta)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <span>
+                                    <strong>Venta #{{ venta.id }}</strong> - {{ venta.fecha | date:'dd/MM/yyyy h:mm a'
+                                    }}
+                                </span>
+                                <span class="badge bg-success">Total: {{ venta.total_neto | currency:'USD' }}</span>
+                            </div>
+                        </button>
+                    </h2>
+                    <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                        [class.show]="venta.detallesVisibles">
+                        <div class="accordion-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>Usuario:</strong> {{ venta.usuario.first_name }} {{
+                                        venta.usuario.last_name }}</p>
+                                    <p><strong>Total Bruto:</strong> {{ venta.total_bruto | currency:'USD' }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Descuento:</strong> {{ venta.descuento }}%</p>
+                                    <p><strong>Total Neto:</strong> {{ venta.total_neto | currency:'USD' }}</p>
+                                </div>
+                            </div>
+
+                            <h5>Detalles de la Venta</h5>
+                            <table class="table table-sm table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col" class="text-end">Cantidad</th>
+                                        <th scope="col" class="text-end">Precio Unitario</th>
+                                        <th scope="col" class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let detalle of venta.detalles">
+                                        <td>{{ detalle.producto_nombre }}</td>
+                                        <td class="text-end">{{ detalle.cantidad }}</td>
+                                        <td class="text-end">{{ detalle.precio_unitario | currency:'USD' }}</td>
+                                        <td class="text-end">{{ detalle.subtotal | currency:'USD' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

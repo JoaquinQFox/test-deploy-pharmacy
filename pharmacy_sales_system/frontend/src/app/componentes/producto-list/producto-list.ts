@@ -3,10 +3,11 @@ import { Producto } from '../../services/producto';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-producto-list',
-  imports: [ CommonModule, RouterLink, RouterModule],
+  imports: [ CommonModule, RouterLink, RouterModule, Navbar],
   templateUrl: './producto-list.html',
   styleUrl: './producto-list.css'
 })

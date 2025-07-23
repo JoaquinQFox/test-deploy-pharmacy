@@ -20,10 +20,8 @@ class Migration(migrations.Migration):
                 ('descripcion', models.TextField(null=True)),
                 ('precio', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('fecha_vencimiento', models.DateField()),
-                ('cantidad', models.IntegerField(default=0)),
                 ('estado', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('proveedor', models.CharField(max_length=150, null=True)),
             ],
         ),
     ]

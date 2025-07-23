@@ -23,7 +23,7 @@ export class Producto {
   }
 
   public actualizarProducto(producto: any): Observable<any> {
-    return this.api.put<any>(`${this.basePath}${producto.id}/`, producto);
+    return this.api.patch<any>(`${this.basePath}${producto.id}/`, producto);
   }
 
   public eliminarProducto(id: number): Observable<any> {

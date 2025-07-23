@@ -1,0 +1,32 @@
+.accordion-button:not(.collapsed) {
+    color: #fff;
+    background-color: #0d6efd;
+}
+
+.accordion-button:focus {
+    z-index: 3;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.accordion-button::after {
+    transition: transform 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-active-icon);
+    transform: var(--bs-accordion-btn-icon-transform);
+}
+
+.card {
+    border: none;
+}
+
+.card-header {
+    border-bottom: none;
+}
+
+.table {
+    margin-bottom: 0;
+}
