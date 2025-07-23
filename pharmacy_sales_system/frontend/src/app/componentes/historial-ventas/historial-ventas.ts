@@ -21,12 +21,10 @@ export class HistorialVentas implements OnInit {
   ventas: Venta[] = [];
   isLoading = true;
 
-  // --- Propiedades para los filtros ---
   filtroAnio: number | null = null;
   filtroMes: number | null = null;
   filtroDia: number | null = null;
 
-  // --- Opciones para los menús desplegables ---
   opcionesAnio: number[] = [];
   opcionesMes: { valor: number, nombre: string }[] = [];
   opcionesDia: number[] = [];
@@ -43,7 +41,6 @@ export class HistorialVentas implements OnInit {
     let endpoint = '/ventas/';
 
     if (params) {
-      // Construimos los parámetros de la URL para el filtrado
       const query = new URLSearchParams(params).toString();
       endpoint += `?${query}`;
     }
@@ -51,7 +48,6 @@ export class HistorialVentas implements OnInit {
     this.api.get<Venta[]>(endpoint).subscribe({
       next: (data) => {
         this.ventas = data.map(venta => ({ ...venta, detallesVisibles: false }));
-        // Si es la carga inicial, generamos las opciones de años
         if (!params) {
           this.generarOpcionesAnio();
         }
@@ -65,10 +61,8 @@ export class HistorialVentas implements OnInit {
   }
 
   private generarOpcionesAnio(): void {
-    // Extraemos los años únicos de las fechas de las ventas
     const anios = this.ventas.map(v => new Date(v.fecha).getFullYear());
-    // Usamos Set para obtener valores únicos y luego lo convertimos a array
-    this.opcionesAnio = [...new Set(anios)].sort((a, b) => b - a); // Orden descendente
+    this.opcionesAnio = [...new Set(anios)].sort((a, b) => b - a);
   }
 
   private inicializarOpcionesMes(): void {
@@ -83,7 +77,6 @@ export class HistorialVentas implements OnInit {
   }
 
   onAnioChange(): void {
-    // Cuando cambia el año, reseteamos mes y día
     this.filtroMes = null;
     this.filtroDia = null;
     this.opcionesDia = [];
@@ -92,9 +85,7 @@ export class HistorialVentas implements OnInit {
   onMesChange(): void {
     this.filtroDia = null;
     if (this.filtroAnio && this.filtroMes) {
-      // Calculamos los días del mes seleccionado
       const diasEnMes = new Date(this.filtroAnio, this.filtroMes, 0).getDate();
-      // Llenamos el array de días desde 1 hasta el número de días del mes
       this.opcionesDia = Array.from({ length: diasEnMes }, (_, i) => i + 1);
     } else {
       this.opcionesDia = [];
@@ -115,7 +106,7 @@ export class HistorialVentas implements OnInit {
     this.filtroMes = null;
     this.filtroDia = null;
     this.opcionesDia = [];
-    this.cargarVentas(); // Carga todas las ventas de nuevo
+    this.cargarVentas();
   }
 
   toggleDetalles(ventaId: number): void {

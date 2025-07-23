@@ -26,8 +26,8 @@ export class Navbar {
   }
 
   logout() {
-    console.log('Se ejecutó logout()'); 
-    alert('Cerrando sesión...'); 
+    console.log('Se ejecutó logout()');
+    alert('Cerrando sesión...');
 
     this.auth.logout().subscribe({
       next: () => {
