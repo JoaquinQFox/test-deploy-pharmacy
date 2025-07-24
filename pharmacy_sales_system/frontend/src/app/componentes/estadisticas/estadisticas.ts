@@ -1,8 +1,18 @@
+// frontend/app/componentes/estadisticas/estadisticas.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Api } from '../../services/api';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration, ChartOptions, ChartType } from 'chart.js';
+
+// --- IMPORTACIONES NECESARIAS PARA CHART.JS ---
+import { 
+  Chart, 
+  ChartConfiguration, 
+  ChartOptions, 
+  ChartType,
+  registerables 
+} from 'chart.js';
+// --- FIN DE LAS IMPORTACIONES ---
 
 interface ChartData {
   labels: string[];
@@ -35,7 +45,13 @@ export class EstadisticasComponent implements OnInit {
 
   public stockCounts = { suficiente: 0, bajo: 0, critico: 0, agotado: 0 };
 
-  constructor(private api: Api) {}
+  constructor(private api: Api) {
+    // --- REGISTRO DE COMPONENTES DE CHART.JS ---
+    // Esta línea le dice a Chart.js que cargue todos los componentes
+    // (controladores, escalas, etc.) para que estén disponibles.
+    Chart.register(...registerables);
+    // --- FIN DEL REGISTRO ---
+  }
 
   ngOnInit(): void {
     this.cargarVentasPorFecha('daily');
@@ -44,7 +60,7 @@ export class EstadisticasComponent implements OnInit {
   }
 
   cargarVentasPorFecha(periodo: string): void {
-    this.api.get<ChartData>(`/ventas/estadisticas/ventas-por-fecha/?periodo=${periodo}`).subscribe(data => {
+    this.api.get<ChartData>(`/estadisticas/ventas-por-fecha/?periodo=${periodo}`).subscribe(data => {
       this.lineChartData = {
         ...data,
         datasets: data.datasets.map(ds => ({
@@ -59,7 +75,7 @@ export class EstadisticasComponent implements OnInit {
   }
 
   cargarTopProductos(metrica: string): void {
-    this.api.get<ChartData>(`/ventas/estadisticas/top-productos/?metrica=${metrica}`).subscribe(data => {
+    this.api.get<ChartData>(`/estadisticas/top-productos/?metrica=${metrica}`).subscribe(data => {
       this.barChartData = {
         ...data,
         datasets: data.datasets.map(ds => ({
@@ -71,7 +87,7 @@ export class EstadisticasComponent implements OnInit {
   }
 
   cargarStockStatus(): void {
-    this.api.get<StockStatus[]>(`/ventas/estadisticas/stock-status/`).subscribe(data => {
+    this.api.get<StockStatus[]>(`/estadisticas/stock-status/`).subscribe(data => {
       this.stockCounts = { suficiente: 0, bajo: 0, critico: 0, agotado: 0 };
       data.forEach(item => this.stockCounts[item.status] = item.count);
       
