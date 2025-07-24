@@ -29,3 +29,13 @@
 .card .border-left-secondary {
     border-left: .25rem solid #858796 !important;
 }
+
+.card-clickable {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+}
