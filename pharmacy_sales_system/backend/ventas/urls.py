@@ -9,6 +9,7 @@ router.register(r'ventas', VentaViewSet, basename='venta')
 
 urlpatterns = [
     path('', include(router.urls)),
+
     path('estadisticas/ventas-por-fecha/', VentasPorFechaAPIView.as_view(), name='stats-ventas-fecha'),
     path('estadisticas/top-productos/', TopProductosAPIView.as_view(), name='stats-top-productos'),
     path('estadisticas/stock-status/', StockStatusAPIView.as_view(), name='stats-stock-status'),
