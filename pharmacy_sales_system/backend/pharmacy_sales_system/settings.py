@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-te7_cfm(22r4^s51i=f!ubkb013q=vtu8ws(31zou%0@(7!jdx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://testbackend-imjr.onrender.com']
 
 
 # Application definition
