@@ -6,7 +6,8 @@ export class Csrf {
   constructor(private http: HttpClient) {}
 
   getToken() {
-    return this.http.get<{ csrfToken: string }>('http://127.0.0.1:8000/api/csrf/', {
+    return this.http.get<{ csrfToken: string }>('https://testbackend-imjr.onrender.com/api/csrf/', {
+
       withCredentials: true
     });
   }

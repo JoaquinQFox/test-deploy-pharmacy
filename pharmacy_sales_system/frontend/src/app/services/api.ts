@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class Api {
-  private baseurl = 'http://127.0.0.1:8000/api';
+  private baseurl = 'https://testbackend-imjr.onrender.com/api';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient) {}

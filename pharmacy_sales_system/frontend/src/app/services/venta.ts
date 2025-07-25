@@ -28,7 +28,8 @@ export interface VentaD {
 })
 export class Venta {
   private http = inject(HttpClient);
-  private apiUrl = 'http://127.0.0.1:8000/api/ventas';
+  private apiUrl = 'https://testbackend-imjr.onrender.com/api/ventas';
+
 
   crearVenta(ventaData: VentaD): Observable<VentaCreada> {
     return this.http.post<VentaCreada>(this.apiUrl + '/', ventaData);
