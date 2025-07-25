@@ -25,8 +25,10 @@ SECRET_KEY = 'django-insecure-te7_cfm(22r4^s51i=f!ubkb013q=vtu8ws(31zou%0@(7!jdx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['testbackend-imjr.onrender.com']
-
+ALLOWED_HOSTS = [
+    "testbackend-imjr.onrender.com",
+    "pweb2-final-project-pharmacy-sales-system.onrender.com",
+]
 
 # Application definition
 
@@ -88,7 +90,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processodrs': [
+            'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
