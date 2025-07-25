@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-te7_cfm(22r4^s51i=f!ubkb013q=vtu8ws(31zou%0@(7!jdx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://testbackend-imjr.onrender.com']
+ALLOWED_HOSTS = ['testbackend-imjr.onrender.com']
 
 
 # Application definition
@@ -67,6 +67,7 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     'http://127.0.0.1:4200',
+    "https://pweb2-final-project-pharmacy-sales-system.onrender.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -74,6 +75,7 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:4200",
     'http://127.0.0.1:4200',
+    "https://pweb2-final-project-pharmacy-sales-system.onrender.com",
 ]
 
 ROOT_URLCONF = 'pharmacy_sales_system.urls'
