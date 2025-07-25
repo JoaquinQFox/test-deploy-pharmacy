@@ -59,7 +59,7 @@ if os.environ.get("DJANGO_DEFAULT_SUPERUSER"):
                 print("Usuario creado")
 
         except Exception as e:
-            print("usuario no creado")
+            print("usuario no creado: "+e)
 
     
 # Application definition
