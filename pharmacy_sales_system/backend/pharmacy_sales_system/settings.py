@@ -70,6 +70,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     'http://127.0.0.1:4200',
     "https://pweb2-final-project-pharmacy-sales-system.onrender.com",
+    'https://test-frontend-qquz.onrender.com',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -78,6 +79,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:4200",
     'http://127.0.0.1:4200',
     "https://pweb2-final-project-pharmacy-sales-system.onrender.com",
+    'https://test-frontend-qquz.onrender.com',
 ]
 
 ROOT_URLCONF = 'pharmacy_sales_system.urls'
@@ -155,3 +157,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+SESSION_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SAMESITE = "None"
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
