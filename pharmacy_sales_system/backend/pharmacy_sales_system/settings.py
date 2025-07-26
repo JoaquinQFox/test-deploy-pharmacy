@@ -26,7 +26,6 @@ SECRET_KEY = 'django-insecure-te7_cfm(22r4^s51i=f!ubkb013q=vtu8ws(31zou%0@(7!jdx
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "testbackend-imjr.onrender.com",
     "pweb2-final-project-pharmacy-sales-system.onrender.com",
     "test-backend-si7g.onrender.com",
 ]
