@@ -23,11 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-te7_cfm(22r4^s51i=f!ubkb013q=vtu8ws(31zou%0@(7!jdx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "testbackend-imjr.onrender.com",
     "pweb2-final-project-pharmacy-sales-system.onrender.com",
+    "test-backend-si7g.onrender.com",
 ]
     
 # Application definition
