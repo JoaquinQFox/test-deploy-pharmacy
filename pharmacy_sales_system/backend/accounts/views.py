@@ -50,6 +50,8 @@ def csrf_token(request):
         samesite=None,
         path='/'
     )
+    
+    return response
 
 @csrf_protect
 @require_POST
