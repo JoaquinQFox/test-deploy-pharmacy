@@ -36,10 +36,20 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
 
-@ensure_csrf_cookie
 def csrf_token(request):
     token = get_token(request)
-    return JsonResponse({'csrfToken': token})
+    response = JsonResponse({'csrfToken': token})
+
+    response.set_cookie(
+        key='csrftoken',
+        value=token,
+        max_age=3600,
+        domain='test-backend-sig7.onreder.com',
+        secure=True,
+        httponly=False,
+        samesite=None,
+        path='/'
+    )
 
 @csrf_protect
 @require_POST
