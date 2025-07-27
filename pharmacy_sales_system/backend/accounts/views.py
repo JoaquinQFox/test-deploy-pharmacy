@@ -36,21 +36,9 @@ class CurrentUserView(APIView):
         serializer = UserSerializer(usuario)
         return Response(serializer.data)
 
+@ensure_csrf_cookie
 def csrf_token(request):
-    token = get_token(request)
-    response = JsonResponse({'csrfToken': token})
-
-    response.set_cookie(
-        key='csrftoken',
-        value=token,
-        max_age=3600,
-        secure=True,
-        httponly=False,
-        samesite='None',
-        path='/'
-    )
-    
-    return response
+    return JsonResponse({'details': "campo exitoso"})
 
 @csrf_protect
 @require_POST
