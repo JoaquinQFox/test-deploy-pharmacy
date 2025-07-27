@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Home } from './componentes/home/home';
+import { CommonModule } from '@angular/common';
 import { Producto } from './services/producto';
 import { Csrf } from './services/csrf';
 import { Auth } from './services/auth'; 
@@ -9,7 +8,7 @@ import { Auth } from './services/auth';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, Home, CurrencyPipe],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
