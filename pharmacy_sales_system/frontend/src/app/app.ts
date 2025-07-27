@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Producto } from './services/producto';
-import { Csrf } from './services/csrf';
 import { Auth } from './services/auth'; 
+import { Csrf } from './services/csrf';
 
 @Component({
   selector: 'app-root',
@@ -23,15 +23,15 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     // 1. Obtener token CSRF al iniciar
-    this.csrf.getToken().subscribe({
-      next: (res: any) => {
-        // console.log('Token CSRF recibido:', res.csrfToken);
-        console.log('Cookies actuales:', document.cookie);
-      },
-      error: (err: any) => {
-        console.error('Error al obtener token CSRF', err);
-      }
-    });
+    // this.csrf.getToken().subscribe({
+    //   next: (res: any) => {
+    //     // console.log('Token CSRF recibido:', res.csrfToken);
+    //     console.log('Cookies actuales:', document.cookie);
+    //   },
+    //   error: (err: any) => {
+    //     console.error('Error al obtener token CSRF', err);
+    //   }
+    this.csrf.fetchToken();
 
     this.auth.checkAuth().subscribe({
       next: () => {
