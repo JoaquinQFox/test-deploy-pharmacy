@@ -44,7 +44,6 @@ def csrf_token(request):
         key='csrftoken',
         value=token,
         max_age=3600,
-        domain='test-backend-sig7.onrender.com',
         secure=True,
         httponly=False,
         samesite=None,
