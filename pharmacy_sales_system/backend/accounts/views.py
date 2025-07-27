@@ -46,7 +46,7 @@ def csrf_token(request):
         max_age=3600,
         secure=True,
         httponly=False,
-        samesite=None,
+        samesite='None',
         path='/'
     )
     
