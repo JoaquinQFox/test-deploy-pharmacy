@@ -7,7 +7,7 @@ export class Csrf {
 
   getToken() {
     return this.http.get<{ csrfToken: string }>('https://test-backend-si7g.onrender.com/api/csrf/', {
-      withCredentials: true
+    withCredentials: true
     });
   }
 }

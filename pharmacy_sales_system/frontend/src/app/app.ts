@@ -25,7 +25,7 @@ export class App implements OnInit {
     // 1. Obtener token CSRF al iniciar
     this.csrf.getToken().subscribe({
       next: (res: any) => {
-        console.log('Token CSRF recibido:', res.csrfToken);
+        // console.log('Token CSRF recibido:', res.csrfToken);
         console.log('Cookies actuales:', document.cookie);
       },
       error: (err: any) => {
