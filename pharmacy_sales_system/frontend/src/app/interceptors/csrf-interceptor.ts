@@ -11,7 +11,7 @@ export const CsrfInterceptor: HttpInterceptorFn = (
   const token = csrfService.getToken()
 
 //   const token = getCookie('csrftoken');
-  const methodsToInclude = ['POST', 'PUT', 'PATCH', 'DELETE'];
+  const methodsToInclude = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
   let modifiedReq = req.clone({
     withCredentials: true  
