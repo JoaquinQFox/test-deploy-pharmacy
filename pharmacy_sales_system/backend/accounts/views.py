@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({"detail": "Usuario Eliminado Exitosamente"}, status=status.HTTP_200_OK)
 
 class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request):
         usuario = request.user
         serializer = UserSerializer(usuario)
