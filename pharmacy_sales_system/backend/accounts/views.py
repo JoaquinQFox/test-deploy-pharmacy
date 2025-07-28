@@ -38,8 +38,10 @@ class CurrentUserView(APIView):
 
 @ensure_csrf_cookie
 def csrf_token(request):
-    token = get_token(request)
-    return JsonResponse({'csrfToken': token})
+    # token = get_token(request)
+    xsrf_token_value = request.COOKIES.get('csrftoken')
+    # return JsonResponse({'csrfToken': token})
+    return JsonResponse({'csrfToken': xsrf_token_value})
 
 @csrf_protect
 @require_POST
