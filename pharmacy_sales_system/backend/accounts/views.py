@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from .serializer import UserSerializer
 from .permissions import ListarEditarRestriccion
@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response({"detail": "Usuario Eliminado Exitosamente"}, status=status.HTTP_200_OK)
 
 class CurrentUserView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request):
         usuario = request.user
         serializer = UserSerializer(usuario)
