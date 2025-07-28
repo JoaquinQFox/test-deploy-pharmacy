@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Api } from './api';
 import { tap } from 'rxjs/operators';
+import { Csrf } from './csrf';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class Auth {
   private loggedIn = false;
   readonly user = signal<{ first_name: string; last_name: string; rol: string} | null>(null);
 
-  constructor(private api: Api) {}
+  constructor(private api: Api, private csrf: Csrf) {}
 
   login(credentials: { username: string; password: string }) {
     return this.api.post<any>('/login/', credentials).pipe(
@@ -18,6 +19,9 @@ export class Auth {
         this.loggedIn = true;
         this.authenticated.set(true);
         this.user.set(user);
+      }),
+      tap(() => {
+        this.csrf.fetchToken();
       })
     );
   }
